@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You!</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #FBF5EE;
+            --text-color: #6B2B2B;
+            --accent-color: #9F5D6B;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+        body {
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .thank-you-container h1 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .thank-you-container p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="thank-you-container">
+        <h1>Thank you for your submission!</h1>
+        <p>We will be in touch soon. Cheers!</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // This code runs as soon as the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Launch confetti
+            confetti({
+                particleCount: 150, // The number of confetti pieces
+                spread: 70,         // How far the confetti spreads
+                origin: { y: 0.6 }    // Start the confetti from just below the center of the screen
+            });
+        });
+    </script>
+
+</body>
+</html>
