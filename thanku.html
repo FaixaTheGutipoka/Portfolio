@@ -3,61 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You!</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-
+    <title>Thank You | Labiba Faiza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Global Styles */
         :root {
-            --bg-color: #FBF5EE;
-            --text-color: #6B2B2B;
-            --accent-color: #9F5D6B;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
+            --primary-color: #0a192f;
+            --secondary-color: #64ffda;
+            --accent-color: #e74c3c;
+            --text-color: #ccd6f6;
+            --text-light: #8892b0;
+            --transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
-        body {
+
+        * {
             margin: 0;
-            background-color: var(--bg-color);
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
             color: var(--text-color);
-            font-family: var(--font-body);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--primary-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Dynamic Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Thank You Content */
+        .thank-you-container {
+            position: relative;
+            z-index: 1;
             height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
         }
-        .thank-you-container h1 {
-            font-family: var(--font-heading);
-            font-size: 3rem;
-            margin-bottom: 20px;
+
+        .thank-you-content {
+            max-width: 600px;
+            padding: 60px 40px;
+            background: rgba(17, 34, 64, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1s ease-out;
         }
-        .thank-you-container p {
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .thank-you-icon {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .thank-you-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            line-height: 1.2;
+        }
+
+        .thank-you-content p {
             font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .thank-you-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: transparent;
+            color: var(--secondary-color);
+            border: 1px solid var(--secondary-color);
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(100, 255, 218, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn-primary {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        .thank-you-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .thank-you-content {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+
+            .thank-you-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .thank-you-content p {
+                font-size: 1.1rem;
+            }
+
+            .thank-you-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thank-you-content h1 {
+                font-size: 2rem;
+            }
+
+            .thank-you-content p {
+                font-size: 1rem;
+            }
+
+            .thank-you-icon {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Dynamic Background -->
+    <div id="particles-js"></div>
 
+    <!-- Thank You Content -->
     <div class="thank-you-container">
-        <h1>Thank you for your submission!</h1>
-        <p>We will be in touch soon. Cheers!</p>
+        <div class="thank-you-content">
+            <div class="thank-you-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <h1>Thank You!</h1>
+            <p>Your email has been received successfully. I'll get back to you as soon as possible. Looking forward to connecting with you!<br><br>Cheers!</p>
+            <div class="thank-you-btns">
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <!-- Footer -->
+    <div class="thank-you-footer">
+        <p>&copy; 2023 Labiba Faiza. All Rights Reserved.</p>
+    </div>
 
+    <!-- Particles.js Library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
-        // This code runs as soon as the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Launch confetti
-            confetti({
-                particleCount: 150, // The number of confetti pieces
-                spread: 70,         // How far the confetti spreads
-                origin: { y: 0.6 }    // Start the confetti from just below the center of the screen
-            });
+        // Initialize Particles.js (same as main portfolio)
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#64ffda'
+                },
+                shape: {
+                    type: 'circle',
+                    stroke: {
+                        width: 0,
+                        color: '#000000'
+                    }
+                },
+                opacity: {
+                    value: 0.5,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#64ffda',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
         });
-    </script>
 
+        // Auto-redirect after 10 seconds (optional)
+        setTimeout(() => {
+            // window.location.href = 'index.html'; // Uncomment if you want auto-redirect
+        }, 10000);
+    </script>
 </body>
 </html>
