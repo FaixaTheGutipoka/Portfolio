@@ -33,6 +33,7 @@
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--primary-color);
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
@@ -248,6 +249,7 @@
             display: none;
             cursor: pointer;
             font-size: 1.5rem;
+            z-index: 1001;
         }
 
         /* Hero Section */
@@ -969,6 +971,27 @@
             font-family: 'Inter', sans-serif;
         }
 
+        /* Touch-friendly improvements */
+        .btn, .skill-item, .project-card, .timeline-content, .social-link {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Mobile Navigation Improvements */
+        .mobile-nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 25, 47, 0.9);
+            z-index: 999;
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-nav-overlay.active {
+            display: block;
+        }
 
         /* Responsive Styles */
         @media (max-width: 1200px) {
@@ -1062,15 +1085,17 @@
             
             nav {
                 position: fixed;
-                top: 70px;
+                top: 0;
                 left: -100%;
                 width: 80%;
-                height: calc(100vh - 70px);
+                max-width: 300px;
+                height: 100vh;
                 background: rgba(10, 25, 47, 0.95);
                 transition: all 0.5s ease;
-                padding: 20px;
+                padding: 80px 20px 20px;
                 backdrop-filter: blur(10px);
                 z-index: 1000;
+                overflow-y: auto;
             }
             
             nav.active {
@@ -1129,6 +1154,7 @@
             .scroll-indicator {
                 display: none;
             }
+            
             .form-input-group {
                 flex-direction: column;
             }
@@ -1140,6 +1166,26 @@
             
             .send-btn {
                 margin-top: 10px;
+            }
+            
+            /* Improve touch targets */
+            .skill-item, .tech-tag {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 15px 25px;
+            }
+            
+            /* Adjust section padding for mobile */
+            section {
+                padding: 80px 0;
+            }
+            
+            /* Improve timeline for mobile */
+            .timeline-content {
+                padding: 20px;
             }
         }
 
@@ -1160,6 +1206,81 @@
             .section-title h2 {
                 font-size: 2rem;
             }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .projects-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .skill-category, .project-card {
+                padding: 20px;
+            }
+            
+            .contact-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .contact-details h4 {
+                font-size: 1.1rem;
+            }
+            
+            .contact-details p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet-specific optimizations */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero-content {
+                gap: 40px;
+            }
+            
+            .hero-text h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero-text h2 {
+                font-size: 1.5rem;
+            }
+            
+            .image-container {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .skills-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .projects-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .contact-container {
+                gap: 30px;
+            }
+        }
+
+        /* High-resolution displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .skill-item, .project-card, .timeline-content {
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -1167,10 +1288,13 @@
     <!-- Dynamic Background -->
     <div id="particles-js"></div>
 
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay"></div>
+
     <!-- Header -->
     <header>
         <div class="container header-container">
-            <div class="logo">Fai~X~a</div>
+            <div class="logo">Labiba Faiza</div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </div>
@@ -1545,10 +1669,11 @@
         // Section Navigation
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('nav a');
-        const scrollDots = document.querySelectorAll('.scroll-dot');
         const sectionIds = ['home', 'skills', 'projects', 'experience', 'contact'];
         let currentSectionIndex = 0;
         let isScrolling = false;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
         // Function to navigate to a specific section
         function goToSection(index) {
@@ -1559,7 +1684,7 @@
             // Update current section index
             currentSectionIndex = index;
             
-            // Update navigation and scroll dots
+            // Update navigation
             updateNavigation();
             
             // Animate sections
@@ -1648,14 +1773,6 @@
                     link.classList.add('active');
                 }
             });
-            
-            // Update scroll dots
-            scrollDots.forEach((dot, index) => {
-                dot.classList.remove('active');
-                if (index === currentSectionIndex) {
-                    dot.classList.add('active');
-                }
-            });
         }
 
         // Navigation click events
@@ -1664,17 +1781,12 @@
                 e.preventDefault();
                 const targetSection = link.getAttribute('data-section');
                 const targetIndex = sectionIds.indexOf(targetSection);
-                if (targetIndex !== -1) { // Add this check to ensure section exists
-                goToSection(targetIndex);
+                if (targetIndex !== -1) {
+                    goToSection(targetIndex);
                 }
-            });
-        });
-
-        // Scroll dot click events
-        scrollDots.forEach((dot, index) => {
-            dot.addEventListener('click', (e) => {
-                e.preventDefault();
-                goToSection(index);
+                // Close mobile menu if open
+                document.querySelector('nav').classList.remove('active');
+                document.querySelector('.mobile-nav-overlay').classList.remove('active');
             });
         });
 
@@ -1703,6 +1815,29 @@
                     goToSection(Math.max(currentSectionIndex - 1, 0));
                 }
             }, 100);
+        }, { passive: true });
+
+        // Touch navigation for mobile devices
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            if (isScrolling) return;
+            
+            touchEndY = e.changedTouches[0].screenY;
+            const touchDiff = touchStartY - touchEndY;
+            
+            // Only navigate if the swipe is significant enough
+            if (Math.abs(touchDiff) > 50) {
+                if (touchDiff > 0) {
+                    // Swipe up - go to next section
+                    goToSection(Math.min(currentSectionIndex + 1, sections.length - 1));
+                } else {
+                    // Swipe down - go to previous section
+                    goToSection(Math.max(currentSectionIndex - 1, 0));
+                }
+            }
         }, { passive: true });
 
         // Keyboard navigation
@@ -1737,13 +1872,13 @@
         // Mobile Menu Toggle
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('nav').classList.toggle('active');
+            document.querySelector('.mobile-nav-overlay').classList.toggle('active');
         });
 
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('nav ul li a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.querySelector('nav').classList.remove('active');
-            });
+        // Close mobile menu when clicking on overlay
+        document.querySelector('.mobile-nav-overlay').addEventListener('click', function() {
+            document.querySelector('nav').classList.remove('active');
+            this.classList.remove('active');
         });
 
         // Form submission
@@ -1785,9 +1920,15 @@
 
         // Initialize first section
         animateSectionContent(document.getElementById('home'));
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Close mobile menu on resize to larger screens
+            if (window.innerWidth > 768) {
+                document.querySelector('nav').classList.remove('active');
+                document.querySelector('.mobile-nav-overlay').classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
-
-
-
