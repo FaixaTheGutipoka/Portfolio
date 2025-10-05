@@ -513,7 +513,6 @@
         .timeline {
             position: relative;
             max-width: 1200px;
-            max-height: 500px
             margin: 0 auto;
         }
 
@@ -556,7 +555,7 @@
         }
 
         .timeline-content {
-            padding: 30px;
+            padding: 30px; /* Adjust padding to change internal spacing */
             background: rgba(17, 34, 64, 0.7);
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -564,7 +563,12 @@
             border: 1px solid rgba(100, 255, 218, 0.1);
             backdrop-filter: blur(10px);
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            min-height: 150px;
+            
+            /* Add these properties to control height and width */
+            min-height: 250px; /* Increase from 200px to make taller */
+            max-width: 500px; /* Add max-width to control width */
+            width: 100%; /* Ensure it takes available space */
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -1933,5 +1937,6 @@
     </script>
 </body>
 </html>
+
 
 
